@@ -1,4 +1,3 @@
-
 'use strict';
 
 (function (angular, buildfire) {
@@ -67,7 +66,8 @@
     .factory("Utils", [function () {
       return {
         validateUrl: function (url) {
-
+          var regExp = /^https?:\/\/.+\/forms\/.+/;
+          return regExp.test(url);
         }
       }
     }]);
