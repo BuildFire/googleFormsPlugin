@@ -23,6 +23,15 @@
           DataStore.get(TAG_NAMES.GOOGLE_FORM_INFO).then(WidgetHome.success, WidgetHome.error);
         };
 
+        WidgetHome.onUpdateCallback = function (event) {
+          if (event && event.tag === TAG_NAMES.GOOGLE_FORM_INFO) {
+            WidgetHome.data = event.data;
+            if (WidgetHome.data && !WidgetHome.data.content)
+              WidgetHome.data.content = {};
+          }
+        };
+
+        DataStore.onUpdate().then(null, null, WidgetHome.onUpdateCallback);
         WidgetHome.init();
 
       }])

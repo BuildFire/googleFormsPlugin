@@ -45,6 +45,13 @@
           }
         };
 
+        ContentHome.clearUrl = function () {
+          if (!ContentHome.formUrl) {
+            ContentHome.data.content.formUrl = null;
+            ContentHome.saveData(ContentHome.data, TAG_NAMES.GOOGLE_FORM_INFO);
+          }
+        };
+
         /*
          * Go pull any previously saved data
          * */
