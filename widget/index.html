@@ -18,6 +18,12 @@
   <script src="app.services.js"></script>
 </head>
 <body>
-
+<div class="content"
+     style="-webkit-overflow-scrolling: touch !important;overflow: auto; height: 100%;"
+     ng-controller="WidgetHomeCtrl as WidgetHome">
+  <iframe src="{{WidgetHome.data.content.formUrl | returnUrl}}"
+          ng-if="WidgetHome.data.content.formUrl"
+          style="height: 100%;position: relative"></iframe>
+</div>
 </body>
 </html>
