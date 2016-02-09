@@ -1,7 +1,7 @@
 {
   "author": "BuildFire",
   "pluginName": "Google Apps form Plugin",
-  "pluginDescription": "",
+  "pluginDescription": "A plugin that provides integration with google apps forms to allow users to view the google forms.",
   "supportEmail": "support@buildfire.com",
   "control": {
     "content": {
