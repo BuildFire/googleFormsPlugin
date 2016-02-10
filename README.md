@@ -1,4 +1,4 @@
-# Google Forms Plugin ![](https://api.travis-ci.org/BuildFire/googleAppsFormPlugin.svg)
+# Google Forms Plugin ![](https://api.travis-ci.org/BuildFire/googleFormsPlugin.svg)
 
 BuildFire plugin to view Google Forms in your app.
 
