@@ -74,6 +74,18 @@ describe('Unit: googleAppsFormPluginContent content app', function () {
         ContentHome.formUrl = null;
         ContentHome.clearUrl();
       });
+
+      it('it should pass if ContentHome.init is called for error', function () {
+        ContentHome.init();
+        ContentHome.error()
+      });
+
+      it('it should pass if ContentHome.init is called for success', function () {
+        var result = {data: {content: {}}};
+        ContentHome.init();
+        ContentHome.success(result);
+      });
+
     });
   });
 });
