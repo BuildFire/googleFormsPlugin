@@ -55,30 +55,31 @@
         /*
          * Go pull any previously saved data
          * */
-        var init = function () {
-          var success = function (result) {
-              console.info('init success result:', result);
-              if (Object.keys(result.data).length > 0) {
-                ContentHome.data = result.data;
-              }
-              if (ContentHome.data) {
-                if (!ContentHome.data.content)
-                  ContentHome.data.content = {};
-                if (ContentHome.data.content.formUrl)
-                  ContentHome.formUrl = ContentHome.data.content.formUrl;
-              }
+        ContentHome.init = function () {
+          ContentHome.success = function (result) {
+            console.info('init success result:', result);
+            if (Object.keys(result.data).length > 0) {
+              ContentHome.data = result.data;
             }
-            , error = function (err) {
-              if (err && err.code !== STATUS_CODE.NOT_FOUND) {
-                console.error('Error while getting data', err);
-              }
-              else if (err && err.code === STATUS_CODE.NOT_FOUND) {
-                ContentHome.saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.GOOGLE_FORM_INFO);
-              }
-            };
-          DataStore.get(TAG_NAMES.GOOGLE_FORM_INFO).then(success, error);
+            if (ContentHome.data) {
+              if (!ContentHome.data.content)
+                ContentHome.data.content = {};
+              if (ContentHome.data.content.formUrl)
+                ContentHome.formUrl = ContentHome.data.content.formUrl;
+            }
+          };
+
+          ContentHome.error = function (err) {
+            if (err && err.code !== STATUS_CODE.NOT_FOUND) {
+              console.error('Error while getting data', err);
+            }
+            else if (err && err.code === STATUS_CODE.NOT_FOUND) {
+              ContentHome.saveData(JSON.parse(angular.toJson(ContentHome.data)), TAG_NAMES.GOOGLE_FORM_INFO);
+            }
+          };
+          DataStore.get(TAG_NAMES.GOOGLE_FORM_INFO).then(ContentHome.success, ContentHome.error);
         };
-        init();
+        ContentHome.init();
       }
     ])
 })(window.angular, window.buildfire);
