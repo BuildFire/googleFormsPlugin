@@ -52,6 +52,10 @@
           }
         };
 
+        ContentHome.gotToSite = function(){
+          window.open('https://accounts.google.com', '_blank');
+        };
+
         /*
          * Go pull any previously saved data
          * */
