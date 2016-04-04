@@ -66,15 +66,22 @@
         ContentHome.init = function () {
           ContentHome.success = function (result) {
             console.info('init success result:', result);
-            if (Object.keys(result.data).length > 0) {
-              ContentHome.data = result.data;
+            if(result.data && result.id) {
+              if (Object.keys(result.data).length > 0) {
+                ContentHome.data = result.data;
+              }
+              if (ContentHome.data) {
+                if (!ContentHome.data.content)
+                  ContentHome.data.content = {};
+                if (ContentHome.data.content.formUrl)
+                  ContentHome.formUrl = ContentHome.data.content.formUrl;
+              }
             }
-            if (ContentHome.data) {
-              if (!ContentHome.data.content)
-                ContentHome.data.content = {};
-              if (ContentHome.data.content.formUrl)
-                ContentHome.formUrl = ContentHome.data.content.formUrl;
-            }
+            else {
+              var dummyData = {url: "https://docs.google.com/forms/u/0/d/1zkL3z-v30eYYfK8v27dCssj0PJ5UybFEZnGoWv_Vj3w/edit?ntd=1&ths=true&usp=forms_home"};
+              ContentHome.formUrl = ContentHome.data.content.url = dummyData.url;
+             }
+
           };
 
           ContentHome.error = function (err) {
