@@ -79,7 +79,7 @@
             }
             else {
               var dummyData = {url: "https://docs.google.com/forms/u/0/d/1zkL3z-v30eYYfK8v27dCssj0PJ5UybFEZnGoWv_Vj3w/edit?ntd=1&ths=true&usp=forms_home"};
-              ContentHome.formUrl = ContentHome.data.content.url = dummyData.url;
+              ContentHome.formUrl = dummyData.url;
              }
 
           };
