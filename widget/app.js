@@ -40,8 +40,16 @@
           }
         };
 
+        //Refresh web page on pulling the tile bar
+
+        buildfire.datastore.onRefresh(function () {
+          var iFrame = document.getElementById("formFrame");
+          iFrame.src = iFrame.src;
+        });
+
         DataStore.onUpdate().then(null, null, WidgetHome.onUpdateCallback);
         WidgetHome.init();
+
 
       }])
     .filter('returnUrl', ['$sce', function ($sce) {
