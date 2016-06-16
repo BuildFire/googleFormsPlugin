@@ -43,8 +43,14 @@
         //Refresh web page on pulling the tile bar
 
         buildfire.datastore.onRefresh(function () {
-          var iFrame = document.getElementById("formFrame");
-          iFrame.src = iFrame.src;
+          var iFrame = document.getElementById("formFrame"),
+            url = iFrame.src,
+            hashIndex = url.indexOf("#");
+
+          if(hashIndex !== -1) {
+            url = url.substr(0, hashIndex) + "?v=test" + url.substr(hashIndex);
+          }
+          iFrame.src = url + "";
         });
 
         DataStore.onUpdate().then(null, null, WidgetHome.onUpdateCallback);
