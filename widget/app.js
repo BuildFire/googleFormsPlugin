@@ -1,66 +1,57 @@
-'use strict';
+const flags = {};
 
-(function (angular) {
-  angular.module('googleAppsFormPluginWidget', ['ui.bootstrap'])
-    .controller('WidgetHomeCtrl', ['$scope', 'Buildfire', 'DataStore', 'TAG_NAMES', 'STATUS_CODE',
-      function ($scope, Buildfire, DataStore, TAG_NAMES, STATUS_CODE) {
-        var WidgetHome = this;
-        /*
-         * Fetch user's data from datastore
-         */
-        WidgetHome.init = function () {
-          WidgetHome.success = function (result) {
-            if(result.data && result.id) {
-              WidgetHome.data = result.data;
-              if (!WidgetHome.data.content)
-                WidgetHome.data.content = {};
-              console.log(">>>>>", WidgetHome.data);
-            }else
-            {
-              WidgetHome.data = {
-                content: {}
-              };
-              var dummyData = {url: "https://docs.google.com/forms/u/0/d/1zkL3z-v30eYYfK8v27dCssj0PJ5UybFEZnGoWv_Vj3w/edit?ntd=1&ths=true&usp=forms_home"};
-              WidgetHome.data.content.formUrl = dummyData.url;
-            }
-          };
-          WidgetHome.error = function (err) {
-            if (err && err.code !== STATUS_CODE.NOT_FOUND) {
-              console.error('Error while getting data', err);
-            }
-          };
-          DataStore.get(TAG_NAMES.GOOGLE_FORM_INFO).then(WidgetHome.success, WidgetHome.error);
-        };
+const setFlags = () => {
+  flags.isWeb = (buildfire.context.device.platform == 'web');
+  flags.isLiveMode = buildfire.context.liveMode;
+  flags.isNotCP = (flags.isLiveMode === 1 || !flags.isWeb);
+};
 
-        WidgetHome.onUpdateCallback = function (event) {
-          if (event && event.tag === TAG_NAMES.GOOGLE_FORM_INFO) {
-            WidgetHome.data = event.data;
-            if (WidgetHome.data && !WidgetHome.data.content)
-              WidgetHome.data.content = {};
-          }
-        };
+const render = (content) => {
 
-        //Refresh web page on pulling the tile bar
+  const handleWindow = (openWindow, displaySuccessMessage) => {
+    if (openWindow) {
+      setTimeout(() => buildfire.navigation.goBack(), 750);
+      buildfire.navigation.openWindow(content.formUrl, "_blank");
+      return;
+    }
+    if (displaySuccessMessage) {
+      window.document.getElementById('successMessage').style.display = 'block';
+      window.document.getElementById('targetUrl').href = content.formUrl;
+      return;
+    }
+  };
 
-        buildfire.datastore.onRefresh(function () {
-          var iFrame = document.getElementById("formFrame"),
-            url = iFrame.src,
-            hashIndex = url.indexOf("#");
+  setFlags();
+  const openWindow = flags.isNotCP; //on the device and open in pop up or native brow
+  const displaySuccessMessage = content.formUrl && flags.isWeb && !flags.isLiveMode;
 
-          if(hashIndex !== -1) {
-            url = url.substr(0, hashIndex) + "?v=test" + url.substr(hashIndex);
-          }
-          iFrame.src = url + "";
-        });
+  handleWindow(openWindow, displaySuccessMessage);
 
-        DataStore.onUpdate().then(null, null, WidgetHome.onUpdateCallback);
-        WidgetHome.init();
+};
 
+buildfire.spinner.show();
+buildfire.datastore.onUpdate(event => render(event.data.content));
+buildfire.datastore.get("googleFormInfo", (err, result) => {
+  if (err) {
+    console.error("error: ", err);
+    buildfire.spinner.hide();
+    return;
+  }
 
-      }])
-    .filter('returnUrl', ['$sce', function ($sce) {
-      return function (url) {
-        return $sce.trustAsResourceUrl(url);
-      }
-    }]);
-})(window.angular);
+  if (!result.data || !result.data.content) {
+    buildfire.spinner.hide();
+    return;
+  }
+
+  const { content } = result.data;
+
+  render(content);
+
+  buildfire.spinner.hide();
+
+  try {
+    buildfire.appearance.ready();
+  } catch (err) {
+    console.log('appearance.ready() failed. Is sdk up to date?');
+  }
+});
