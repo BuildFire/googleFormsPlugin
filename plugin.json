@@ -1,7 +1,7 @@
 {
   "author": "BuildFire",
   "pluginName": "Google Forms",
-  "pluginDescription": "Take surveys, plan your next camping trip, manage event registrations, whip up a quick poll, collect email addresses for a newsletter, create a pop quiz, and much more.Related Topics:Google Plus, Students",
+  "pluginDescription": "Seamlessly embed Google Forms into your mobile app.",
   "supportEmail": "support@buildfire.com",
   "supportSite":"http://learn.appdocumentation.com/plugin-tutorials/google-forms-plugin-tutorial/",
   "control": {
@@ -18,5 +18,31 @@
   "widget": {
   },
   "features": [],
-  "languages": ["en"]
+  "languages": ["en"],
+  "media": [
+    {
+      "type": "image-resource",
+      "path": "1-Plugin.png"
+    },
+    {
+      "type": "image-resource",
+      "path": "2-Benefits.png"
+    },
+    {
+      "type": "image-resource",
+      "path": "3-Use-Cases.png"
+    },
+    {
+      "type": "image-resource",
+      "path": "4-Content-Tab.png"
+    },
+    {
+      "type": "image-resource",
+      "path": "5-Analytics-Tab.png"
+    },
+    {
+      "type": "youtube-video",
+      "path": "https://www.youtube.com/watch?v=amOgCtmJYuk"
+    }
+  ]
 }
