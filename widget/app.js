@@ -1,3 +1,7 @@
+const DEFAULT_CONTENT = {
+  formUrl: "https://docs.google.com/forms/u/0/d/1zkL3z-v30eYYfK8v27dCssj0PJ5UybFEZnGoWv_Vj3w/edit?ntd=1&ths=true&usp=forms_home"
+};
+
 const flags = {};
 
 const setFlags = () => {
@@ -38,12 +42,7 @@ buildfire.datastore.get("googleFormInfo", (err, result) => {
     return;
   }
 
-  if (!result.data || !result.data.content) {
-    buildfire.spinner.hide();
-    return;
-  }
-
-  const { content } = result.data;
+  const content = (result.data && result.data.content) ? result.data.content : DEFAULT_CONTENT;
 
   render(content);
 
